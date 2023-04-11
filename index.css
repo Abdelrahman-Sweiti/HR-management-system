@@ -1,3 +1,5 @@
+
+
 header {
     background-color: #333;
     padding: 10px;
@@ -15,12 +17,19 @@ header {
     margin-right: 10px;
   }
 
-  body {
+  body,html {
+    display: flex;
+    flex-direction: column;
     padding: 0;
     margin: 0;
     background-color: antiquewhite;
   }
   
+  main{
+    font-family: 'Schibsted Grotesk', sans-serif;
+flex:1;
+
+  }
   header nav ul {
     list-style-type: none;
     margin: 0;
@@ -46,7 +55,9 @@ header {
     background-color: #111;
   }
   
+
   footer {
+    margin-top: auto;
     color: white;
     background-color: black;
     text-align: center;
@@ -70,4 +81,56 @@ color: white;
 
   }
   
+  .card {
+    width: 300px;
+    background-color: #f5f5f5;
+    margin: 1rem;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+  }
   
+  .card h2 {
+    margin-top: 0;
+  }
+  
+  .card img {
+    width: 100%;
+    height: auto;
+    margin-bottom: 1rem;
+  }
+  
+  form label {
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+  
+  form input,
+  form select {
+    display: block;
+    width: 100%;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 0.25rem;
+    box-sizing: border-box;
+  }
+  
+  form select {
+    height: 2.5rem;
+  }
+  
+  form button {
+    background-color: #333;
+    color: #fff;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 0.25rem;
+    cursor: pointer;
+  }
+  
+  form button:hover {
+    background-color: #555;
+  }
+  
+ 
