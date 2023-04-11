@@ -33,19 +33,32 @@ function Employee(id, fullName, department, level, imageUrl) {
   };
   
   Employee.prototype.render = function() {
-    const employeeDiv = document.createElement("div");
-    employeeDiv.classList.add("employee");
+    const employeeCard = document.createElement("div");
+    employeeCard.classList.add("employee-card");
   
     const nameDiv = document.createElement("div");
-    nameDiv.textContent = this.fullName;
-    employeeDiv.appendChild(nameDiv);
+    nameDiv.textContent = `Name: ${this.fullName}`;
+    employeeCard.appendChild(nameDiv);
   
-    const salaryDiv = document.createElement("div");
-    salaryDiv.textContent = `Salary: $${this.salary.toFixed(2)}`;
-    employeeDiv.appendChild(salaryDiv);
+    const departmentDiv = document.createElement("div");
+    departmentDiv.textContent = `Department: ${this.department}`;
+    employeeCard.appendChild(departmentDiv);
   
-    return employeeDiv;
+    const levelDiv = document.createElement("div");
+    levelDiv.textContent = `Level: ${this.level}`;
+    employeeCard.appendChild(levelDiv);
+  
+    const imageDiv = document.createElement("div");
+    imageDiv.innerHTML = `<img src="${this.imageUrl}" alt="${this.fullName}">`;
+    employeeCard.appendChild(imageDiv);
+  
+    const idDiv = document.createElement("div");
+    idDiv.textContent = `ID: ${this.employeeId}`;
+    employeeCard.appendChild(idDiv);
+  
+    return employeeCard;
   };
+  
   
   const employees = [
     new Employee(1000, "Ghazi Samer", "Administration", "Senior", "https://example.com/ghazi-samer.jpg"),
@@ -62,4 +75,71 @@ function Employee(id, fullName, department, level, imageUrl) {
     const employeeDiv = employee.render();
     mainSection.appendChild(employeeDiv);
   });
-  
+
+
+function generateEmployeeId() {
+  const id = Math.floor(Math.random() * 9000) + 1000;
+  return `EMP-${id}`;
+}
+
+function addEmployee(event) {
+  event.preventDefault();
+
+  const form = event.target;
+  const fullName = form.elements['full-name'].value;
+  const department = form.elements['department'].value;
+  const level = form.elements['level'].value;
+  const imageUrl = form.elements['image-url'].value;
+  const id = generateEmployeeId();
+
+  const employee = { id, fullName, department, level, imageUrl };
+  employees.push(employee);
+
+  form.reset();
+  render();
+}
+
+const employeeForm = document.getElementById('employee-form');
+employeeForm.addEventListener('submit', addEmployee);
+
+function render() {
+  const employeesContainer = document.getElementById('employees-container');
+  employeesContainer.innerHTML = '';
+
+  employees.forEach(employee => {
+    const card = document.createElement('div');
+    card.className = 'card';
+
+    const img = document.createElement('img');
+    img.src = employee.imageUrl;
+    img.alt = employee.fullName;
+    card.appendChild(img);
+
+    const details = document.createElement('div');
+    details.className = 'details';
+    card.appendChild(details);
+
+    const name = document.createElement('h2');
+    name.textContent = employee.fullName;
+    details.appendChild(name);
+
+    const id = document.createElement('p');
+    id.textContent = `Employee ID: ${employee.id}`;
+    details.appendChild(id);
+
+    const department = document.createElement('p');
+    department.textContent = `Department: ${employee.department}`;
+    details.appendChild(department);
+
+    const level = document.createElement('p');
+    level.textContent = `Level: ${employee.level}`;
+    details.appendChild(level);
+
+    employeesContainer.appendChild(card);
+  });
+}
+
+function filterByDepartment(department) {
+  return employees.filter(employee => employee.department === department);
+}
+
