@@ -32,32 +32,43 @@ function Employee(id, fullName, department, level, imageUrl) {
     return netSalary;
   };
   
-  Employee.prototype.render = function() {
-    const employeeCard = document.createElement("div");
-    employeeCard.classList.add("employee-card");
+  function render() {
+    const employeesContainer = document.getElementById('employees-container');
+    employeesContainer.innerHTML = '';
   
-    const nameDiv = document.createElement("div");
-    nameDiv.textContent = `Name: ${this.fullName}`;
-    employeeCard.appendChild(nameDiv);
+    employees.forEach(employee => {
+      const card = document.createElement('div');
+      card.className = 'card';
   
-    const departmentDiv = document.createElement("div");
-    departmentDiv.textContent = `Department: ${this.department}`;
-    employeeCard.appendChild(departmentDiv);
+      const img = document.createElement('img');
+      img.src = employee.imageUrl;
+      img.alt = employee.fullName;
+      card.appendChild(img);
   
-    const levelDiv = document.createElement("div");
-    levelDiv.textContent = `Level: ${this.level}`;
-    employeeCard.appendChild(levelDiv);
+      const details = document.createElement('div');
+      details.className = 'details';
+      card.appendChild(details);
   
-    const imageDiv = document.createElement("div");
-    imageDiv.innerHTML = `<img src="${this.imageUrl}" alt="${this.fullName}">`;
-    employeeCard.appendChild(imageDiv);
+      const name = document.createElement('h2');
+      name.textContent = employee.fullName;
+      details.appendChild(name);
   
-    const idDiv = document.createElement("div");
-    idDiv.textContent = `ID: ${this.employeeId}`;
-    employeeCard.appendChild(idDiv);
+      const id = document.createElement('p');
+      id.textContent = `Employee ID: ${employee.id}`;
+      details.appendChild(id);
   
-    return employeeCard;
-  };
+      const department = document.createElement('p');
+      department.textContent = `Department: ${employee.department}`;
+      details.appendChild(department);
+  
+      const level = document.createElement('p');
+      level.textContent = `Level: ${employee.level}`;
+      details.appendChild(level);
+  
+      employeesContainer.appendChild(card);
+    });
+  }
+  
   
   
   const employees = [
@@ -96,6 +107,7 @@ function addEmployee(event) {
   employees.push(employee);
 
   form.reset();
+  saveToLocalStorage();
   render();
 }
 
@@ -137,6 +149,24 @@ function render() {
 
     employeesContainer.appendChild(card);
   });
+}
+function saveToLocalStorage() {
+  const employeeStringArray = [];
+  employees.forEach(employee => {
+    const employeeString = JSON.stringify(employee);
+    employeeStringArray.push(employeeString);
+  });
+  localStorage.setItem('employees', JSON.stringify(employeeStringArray));
+}
+
+function loadFromLocalStorage() {
+  const employeeStringArray = JSON.parse(localStorage.getItem('employees'));
+  const employeeArray = [];
+  employeeStringArray.forEach(employeeString => {
+    const employee = JSON.parse(employeeString);
+    employeeArray.push(employee);
+  });
+  return employeeArray;
 }
 
 function filterByDepartment(department) {
